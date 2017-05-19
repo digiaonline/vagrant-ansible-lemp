@@ -1,0 +1,69 @@
+server {
+    listen 80;
+    server_name {{ item.name }};
+
+    access_log /var/log/nginx/{{ item.name }}.access.log;
+    error_log  /var/log/nginx/{{ item.name }}.error.log;
+
+    root {{ item.docroot }};
+    index index.php index.htm index.html;
+
+    client_max_body_size 20M;
+
+    fastcgi_read_timeout 60000;
+    proxy_connect_timeout 60000;
+    proxy_send_timeout 60000;
+    proxy_read_timeout 60000;
+    send_timeout 60000;
+
+    gzip on;
+    gzip_http_version 1.0;
+    gzip_disable msie6;
+    gzip_vary on;
+
+    gzip_comp_level 4;
+    gzip_proxied any;
+    gzip_types text/plain text/css application/x-javascript text/xml application/xml application/xml+rss text/javascript;
+
+    location / {
+        try_files $uri $uri/ /index.php?$query_string;
+        sendfile off;
+    }
+
+    location = /favicon.ico {
+        log_not_found off;
+        access_log off;
+    }
+
+    location = /robots.txt {
+        allow all;
+        log_not_found off;
+        access_log off;
+    }
+
+    location ~* \.php$ {
+        fastcgi_split_path_info ^(.+\.php)(/.+)$;
+        fastcgi_pass   127.0.0.1:9000;
+        fastcgi_index  index.php;
+        fastcgi_param  SCRIPT_FILENAME   $document_root$fastcgi_script_name;
+        include        fastcgi_params;
+    }
+
+    location ~ /\.ht {
+        deny all;
+    }
+
+    # catch all
+    error_page 404 /index.php;
+
+    # removes trailing slashes (prevents SEO duplicate content issues)
+    if (!-d $request_filename) {
+        rewrite ^/(.+)/$ /$1 permanent;
+    }
+
+    # enforce NO www
+    if ($host ~* ^www\.(.*)) {
+        set $host_without_www $1;
+        rewrite ^/(.*)$ $scheme://$host_without_www/$1 permanent;
+    }
+}

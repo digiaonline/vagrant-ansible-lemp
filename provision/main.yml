@@ -1,0 +1,10 @@
+---
+- name: Install stuff, configure sites & DB's
+  hosts: all
+  remote_user: root
+  become: yes
+  become_method: sudo
+
+  roles:
+    - system
+    - tools
