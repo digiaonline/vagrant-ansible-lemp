@@ -1,0 +1,12 @@
+---
+- name: WP-CLI | Download WP-CLI
+  get_url:
+    url: "{{wp_cli_download_url}}"
+    dest: /tmp/wp-cli.phar
+    force: true
+    owner: root
+    group: root
+    mode: 0755
+
+- name: Move wp-cli in place
+  command: mv /tmp/wp-cli.phar /usr/local/bin/wp
