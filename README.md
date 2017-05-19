@@ -27,4 +27,6 @@ Easily configurable local LEMP-environment for multiple hostnames.
 
 ### What if I run into problems...?
 Like always, you should as Niklas as he knows everything.
+
+
 ![niklas](http://testi.in/niklas.gif "Niklas knows everything")
