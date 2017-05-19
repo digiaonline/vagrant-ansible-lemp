@@ -1,0 +1,20 @@
+---
+php_modules:
+  - php7.1-mysql
+  - php7.1-gd
+  - php-apcu
+  - php7.1-mcrypt
+  - php7.1-curl
+  - php7.1-intl
+  - php-memcached
+  - php7.1-mbstring
+  - php7.1-xml
+  - php7.1-pgsql
+
+php_configs:
+  -
+    option: "upload_max_filesize"
+    value: "100M"
+  -
+    option: "post_max_size"
+    value: "100M"

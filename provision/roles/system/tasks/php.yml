@@ -1,0 +1,27 @@
+---
+- name: PHP | Install Ondrej PHP PPA
+  apt_repository: repo='ppa:ondrej/php' update_cache=yes
+
+- name: PHP | Install PHP 7.1
+  apt: pkg=php7.1 state=latest
+  tags: common
+
+- name: PHP | Install PHP Modules
+  apt: pkg={{ item }} state=latest
+  tags: common
+  with_items: "{{php_modules}}"
+
+- stat: path=/usr/local/bin/composer
+  register: composer_folder
+
+- name: PHP | Install Composer
+  shell: curl -sS https://getcomposer.org/installer | php && mv composer.phar /usr/local/bin/composer creates=/usr/local/bin/composer
+  when: composer_folder.stat.isdir is not defined
+
+- name: PHP | Install Custom PHP.ini Configurations for CLI PHP
+  ini_file: dest=/etc/php/7.1/cli/php.ini
+            section=PHP
+            option="{{ item.option }}"
+            value="{{ item.value }}"
+            backup=yes
+  with_items: "{{php_configs}}"
