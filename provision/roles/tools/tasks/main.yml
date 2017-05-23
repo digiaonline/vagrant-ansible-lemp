@@ -1,3 +1,3 @@
 - include: wp_cli.yml
 - include: nvm.yml
-- include: mailcatcher.yml
+# - include: mailcatcher.yml

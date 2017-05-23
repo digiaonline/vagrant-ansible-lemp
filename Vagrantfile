@@ -25,13 +25,11 @@ end
 Vagrant.require_version '>= 1.5.1'
 Vagrant.configure("2") do |config|
 
-  config.vm.box = "ubuntu/xenial64"
+  config.vm.box = "bento/ubuntu-16.04"
 
   config.vm.network "private_network", ip: site_config['ip_addr']
   config.vm.hostname = site_config['hostname']
 
-  config.ssh.username = "ubuntu"
-  config.ssh.password = "ubuntu"
 
   # Fix for: "stdin: is not a tty"
   # https://github.com/mitchellh/vagrant/issues/1673#issuecomment-28288042
@@ -41,10 +39,6 @@ Vagrant.configure("2") do |config|
 
   config.vm.provision "shell" do |shell|
     shell.inline = "sudo apt-get update -y && sudo apt-get upgrade -y && sudo apt-get install -y python"
-  end
-
-  config.vm.provision "shell" do |shell|
-    shell.inline = "echo 'ubuntu:ubuntu' | sudo chpasswd"
   end
 
   config.vm.provision "ansible" do |ansible|
