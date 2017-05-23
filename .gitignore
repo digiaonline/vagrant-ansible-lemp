@@ -1,2 +1,5 @@
 *.log
 *.retry
+/.vagrant/*
+/sites/*
+config.yml
