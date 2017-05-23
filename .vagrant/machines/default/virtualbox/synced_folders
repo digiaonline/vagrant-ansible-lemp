@@ -1,0 +1,1 @@
+{"virtualbox":{"/sites":{"mount_options":["dmode=777","fmode=666","uid=1000","gid=1000"],"guestpath":"/sites","hostpath":"/mnt/c/Git/vagrant-ansible-lemp/sites","disabled":false,"__vagrantfile":true},"/vagrant":{"guestpath":"/vagrant","hostpath":"/mnt/c/Git/vagrant-ansible-lemp","disabled":false,"__vagrantfile":true}}}
