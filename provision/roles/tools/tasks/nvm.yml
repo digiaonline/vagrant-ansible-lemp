@@ -10,6 +10,7 @@
     executable: /bin/zsh
 
 - name: Node | Install Yarn
-  become: true
-  become_user: vagrant
-  shell: curl -o- -L https://yarnpkg.com/install.sh | bash
+  sudo: no
+  shell: source /home/vagrant/.zshrc && npm i -g yarn
+  args:
+    executable: /bin/zsh

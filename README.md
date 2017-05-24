@@ -28,8 +28,7 @@ Easily configurable local LEMP-environment for multiple hostnames.
 * Run `vagrant provision` to automatically add necessary information to the box & to you hosts-file.
 
 ### What if I run into problems...?
-* Sometimes the box has to be provisioned twice, since installing `yarn` occasionally throws an error
-* Insalling Mailcatcher has been disabled in `/provision/roles/tools/tasks/main.yml` for the time being, since it keeps failing
+* Installing Mailcatcher has been disabled in `/provision/roles/tools/tasks/main.yml` for the time being, since it keeps failing
 
 Like always, you should as Niklas as he knows everything.
 

@@ -2,4 +2,4 @@
 *.retry
 /.vagrant/*
 /sites/*
-config.yml
+config\.yml
