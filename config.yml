@@ -1,0 +1,20 @@
+---
+ip_addr: '192.168.69.99'
+hostname: 'DevBox'
+domains:
+  -
+    name: 'testsite.dev'
+    db_name: 'testsite_dev'
+    docroot: '/sites/testsite'
+  -
+    name: 'gamrefinery.dev'
+    db_name: 'gamrefinery_dev'
+    docroot: '/sites/gamrefinery'
+  -
+    name: 'affecto.dev'
+    db_name: 'affecto_dev'
+    docroot: '/sites/affecto-com'
+  -
+    name: 'nattours.dev'
+    db_name: 'nattours_dev'
+    docroot: '/sites/nattours/web'
