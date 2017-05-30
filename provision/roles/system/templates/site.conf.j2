@@ -26,7 +26,7 @@ server {
     gzip_types text/plain text/css application/x-javascript text/xml application/xml application/xml+rss text/javascript;
 
     location / {
-        try_files $uri $uri/ /index.php;
+        try_files $uri $uri/ /index.php?$query_string;
         sendfile off;
     }
 
