@@ -15,6 +15,6 @@
   file: path=/etc/nginx/sites-enabled/default state=absent
 
 - name: NGINX | Activate Hosts
-  copy: src=/etc/nginx/sites-available/{{ item.name }}.conf dest=/etc/nginx/conf.d/{{ item.name }}.conf remote_src=yes
+  file: src=/etc/nginx/sites-available/{{ item.name }}.conf dest=/etc/nginx/sites-enabled/{{ item.name }}.conf state=link
   with_items: "{{domains}}"
   notify: restart nginx
