@@ -57,9 +57,9 @@ server {
     error_page 404 /index.php;
 
     # removes trailing slashes (prevents SEO duplicate content issues)
-    if (!-d $request_filename) {
-        rewrite ^/(.+)/$ /$1 permanent;
-    }
+    # if (!-d $request_filename) {
+    #     rewrite ^/(.+)/$ /$1 permanent;
+    # }
 
     # enforce NO www
     if ($host ~* ^www\.(.*)) {

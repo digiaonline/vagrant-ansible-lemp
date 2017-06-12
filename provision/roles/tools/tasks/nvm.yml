@@ -1,15 +1,16 @@
 - name: Node | Install NVM
   become: true
-  become_user: ubuntu
+  become_user: vagrant
   shell: curl -o- {{nvm_download_url}} | bash
 
 - name: Node | Install 6.10.3
   sudo: no
-  shell: source /home/ubuntu/.zshrc && nvm install 6.10.3 && nvm use 6.10.3
+  shell: source /home/vagrant/.zshrc && nvm install 6.10.3 && nvm use 6.10.3
   args:
     executable: /bin/zsh
 
 - name: Node | Install Yarn
-  become: true
-  become_user: ubuntu
-  shell: curl -o- -L https://yarnpkg.com/install.sh | bash
+  sudo: no
+  shell: source /home/vagrant/.zshrc && npm i -g yarn
+  args:
+    executable: /bin/zsh

@@ -5,4 +5,5 @@ domains:
   -
     name: 'testsite.dev'
     db_name: 'testsite_dev'
-    docroot: '/sites/avisblog'
+    docroot: '/sites/testsite'
+    
