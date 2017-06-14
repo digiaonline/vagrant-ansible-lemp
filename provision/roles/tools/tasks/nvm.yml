@@ -1,16 +1,23 @@
+---
+- stat: path=/home/vagrant/.nvm
+  register: nvm
+
 - name: Node | Install NVM
+  when: nvm.stat.exists == False
   become: true
   become_user: vagrant
   shell: curl -o- {{nvm_download_url}} | bash
 
 - name: Node | Install 6.10.3
-  sudo: no
+  become: true
+  become_user: vagrant
   shell: source /home/vagrant/.zshrc && nvm install 6.10.3 && nvm use 6.10.3
   args:
     executable: /bin/zsh
 
 - name: Node | Install Yarn
-  sudo: no
+  become: true
+  become_user: vagrant
   shell: source /home/vagrant/.zshrc && npm i -g yarn
   args:
     executable: /bin/zsh
