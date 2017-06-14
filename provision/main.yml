@@ -1,8 +1,8 @@
 ---
 - name: Install stuff, configure sites & DB's
   hosts: all
-  remote_user: root
   become: yes
+  become_user: root
   become_method: sudo
 
   roles:
