@@ -6,4 +6,5 @@
 - include: nginx.yml
 - include: php.yml
 - include: php_fpm.yml
+- include: daemonize.yml
 - include: ohmyzshrc.yml
