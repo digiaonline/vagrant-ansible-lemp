@@ -1,0 +1,38 @@
+---
+- name: Mailhog | Configure FPM PHP.ini
+  command: sed -ir "s/;\?sendmail_path =.*/sendmail_path = \/usr\/sbin\/sendmail -t -i/" /etc/php/7.1/fpm/php.ini
+
+- name: Mailhog | Configure CLI PHP.ini
+  command: sed -ir "s/;\?sendmail_path =.*/sendmail_path = \/usr\/sbin\/sendmail -t -i/" /etc/php/7.1/cli/php.ini
+
+- name: Mailhog | Ensure mailhog install directory exists.
+  file:
+    path: "{{ mailhog_install_dir }}"
+    owner: root
+    group: root
+    state: directory
+    mode: 0755
+
+- name: Mailhog | Download MailHog and mhsendmail binaries.
+  get_url:
+    url: "{{ item.url }}"
+    dest: "{{ item.dest }}"
+    owner: root
+    group: root
+    mode: 0755
+  with_items:
+    - url: "{{ mailhog_binary_url }}"
+      dest: "{{ mailhog_install_dir }}/mailhog"
+    - url: "{{ mhsendmail_binary_url }}"
+      dest: "{{ mailhog_install_dir }}/mhsendmail"
+
+- name: Mailhog | Copy mailhog init script into place.
+  template:
+    src: mailhog.init.j2
+    dest: /etc/init.d/mailhog
+    owner: root
+    group: root
+    mode: 0755
+
+- name: Mailhog | Ensure mailhog is enabled and will start on boot.
+  service: name=mailhog state=started enabled=yes

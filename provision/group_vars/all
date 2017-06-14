@@ -4,6 +4,12 @@ mysql_password: 'root'
 wp_cli_download_url: 'https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar'
 
 nvm_download_url: 'https://raw.githubusercontent.com/creationix/nvm/v0.33.2/install.sh'
+
+mailhog_install_dir: /opt/mailhog
+mailhog_binary_url: https://github.com/mailhog/MailHog/releases/download/v0.2.1/MailHog_linux_amd64
+mhsendmail_binary_url: https://github.com/mailhog/mhsendmail/releases/download/v0.2.0/mhsendmail_linux_amd64
+mailhog_daemonize_bin_path: /usr/sbin/daemonize
+
 workspace: /root
 daemonize_version: 1.7.7
 daemonize_install_path: "/usr"

@@ -1,2 +1,3 @@
 - include: wp_cli.yml
 - include: nvm.yml
+- include: mailhog.yml
