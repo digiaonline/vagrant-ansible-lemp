@@ -4,4 +4,4 @@
 /sites/*
 !/sites/testsite/*
 
-config\.yml
+/config.yml
