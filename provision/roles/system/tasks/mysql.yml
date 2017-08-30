@@ -5,6 +5,13 @@
 - name: MySQL | Install python-mysqldb
   apt: pkg=python-mysqldb state=installed
 
+
+- name: Set root user password
+  mysql_user:
+    name: root
+    # password: "{{ mysql_password}}"
+    # check_implicit_admin: true
+
 - name: Create .my.cnf
   template:
     src: "../templates/client.my.cnf.j2"
@@ -12,12 +19,6 @@
     owner: root
     group: root
     mode: 0600
-
-- name: Set root user password
-  mysql_user:
-    name: root
-    password: "{{ mysql_password}}"
-    check_implicit_admin: true
 
 - name: MySQL | Copy Config File
   template: src=../templates/my.cnf.j2 dest=/etc/mysql/my.cnf owner=root mode=0600
