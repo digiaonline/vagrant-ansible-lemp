@@ -1,0 +1,39 @@
+server {
+    listen {{ nginx_listen_port_http }};
+    listen [::]:{{ nginx_listen_port_http }};
+    server_name {{ item.name }};
+
+    root {{ item.docroot }};
+    index index.php index.html;
+
+    client_max_body_size {{ nginx_client_max_body_size }};
+
+    gzip_types text/plain text/css application/json application/x-javascript text/xml application/xml application/xml+rss text/javascript application/javascript text/x-js;
+
+    location / {
+        try_files $uri $uri/ /index.php?$query_string;
+        sendfile {{ nginx_sendfile }};
+    }
+
+    {% if nginx_caching_enabled %}
+        location ~* \.({{ nginx_cache_extensions }})$ {
+            expires {{ nginx_cache_expires }};
+        }
+    {% endif %}
+
+    error_page 404 /404.html;
+
+    error_page 500 502 503 504 /50x.html;
+        location = /50x.html {
+        root /usr/share/nginx/html;
+    }
+
+    location ~ \.php$ {
+        fastcgi_split_path_info ^(.+\.php)(/.+)$;
+        fastcgi_pass {{ nginx_fastcgi_pass }};
+        fastcgi_index index.php;
+        fastcgi_param SCRIPT_FILENAME $realpath_root$fastcgi_script_name;
+        fastcgi_param DOCUMENT_ROOT $realpath_root;
+        include fastcgi_params;
+    }
+}

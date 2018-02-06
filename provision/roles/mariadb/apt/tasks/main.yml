@@ -1,0 +1,9 @@
+- name: Add apt keys
+  apt_key: keyserver=keyserver.ubuntu.com id={{ item }}
+  with_items: "{{ mariadb_apt_keys }}"
+  
+- name: Add apt repository
+  apt_repository: repo='deb http://mirror.netinch.com/pub/mariadb/repo/10.1/ubuntu {{ ansible_distribution_release }} main' state=present
+
+- name: Ensure the python-mysqldb package is installed
+  apt: pkg=python-mysqldb state=present

@@ -1,0 +1,93 @@
+php_ppa: ondrej/php
+php_sapis:
+  - { name: fpm, package: php7.1-fpm }
+  - { name: cli, package: php7.1-cli }
+php_packages:
+  - php7.1-curl
+  - php7.1-dev
+  - php7.1-gd
+  - php7.1-imagick
+  - php7.1-intl
+  - php7.1-mcrypt
+  - php7.1-mysql
+  - php7.1-xml
+  - php7.1-mbstring
+php_additional_packages: []
+
+#
+# Packages that should be installed using "pear install"
+#
+php_pear_packages: []
+
+#
+# Packages that should be installed using "pecl install". Not all packages (especially old unmaintained ones) are 
+# available through PECL, use php_pear_packages for that.
+#
+php_pecl_packages: []
+
+#
+# The path to where all PHP configuration files are kept. Change if you change the version of PHP installed.
+#
+php_etc_path: /etc/php/7.1
+
+#
+# The service to restart when running "sudo service <service> restart". Change if you change the version of PHP 
+# installed.
+#
+php_fpm_service_name: php7.1-fpm
+
+php_fpm_pool_www_file: /etc/php/7.1/fpm/pool.d/www.conf
+php_fpm_pool_www_template: fpm_pool_www.j2
+
+# fpm tweaking
+php_fpm_max_children: 5
+
+# these should normally match the user that runs nginx
+php_fpm_pool_user: www-data
+php_fpm_pool_group: www-data
+
+php_ini_template: php.ini.j2
+
+#
+# Memory limit configuration. php_memory_limit applies to all SAPIs while php_memory_limit_cli can be used to override 
+# the memory limit for the CLI SAPI. The latter is undefined by default, meaning no override will be done.
+#
+php_memory_limit: 128M
+#php_memory_limit_cli: 2G
+
+# Whether to display errors. Default to off to prevent from accidentally forgetting to disable in staging/production
+php_display_errors: Off
+
+# Don't change this unless you know what you're doing
+php_always_populate_raw_post_data: -1
+
+# make sure you use matching values for nginx too
+php_upload_max_filesize: 10M
+php_post_max_size: 10M
+
+php_timezone: Europe/Helsinki
+
+#
+#
+# Opcache settings. Defaults are 64 MB / 2000 files, we increase that because with Symfony/Magento etc. the limit is 
+# easily reached (empirically confirmed)
+#
+php_opcache_memory_consumption: 128
+php_opcache_max_accelerated_files: 16000
+
+#
+# Whether files should be checked for changes. Disable this in production and reload fpm instead to clear the cache.
+#
+php_opcache_validate_timestamps: "1"
+
+#
+# Allow file existence override (file_exists, etc.) performance feature. Enable in production only.
+#
+php_opcache_enable_file_override: "0"
+
+php_composer_config_path: /home/vagrant/.config/composer
+
+#
+# The template to use for Composer's auth.json
+#
+php_composer_auth_json_template: php_composer_auth.json.j2

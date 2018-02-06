@@ -1,0 +1,46 @@
+---
+- include_vars: ../../../../config.yml
+
+- name: Install packages
+  apt: pkg=nginx state=present
+
+- name: Configure nginx.conf using template
+  template: src=templates/nginx.conf.j2 dest=/etc/nginx/nginx.conf
+  notify: restart nginx
+
+- name: Install python-passlib (needed for authentication management)
+  apt: pkg=python-passlib state=present
+  when: nginx_basic_auth_users | length > 0
+
+- name: Configure basic authentication
+  htpasswd: path={{ nginx_basic_auth_user_file }}
+            name={{ item.username }}
+            password={{ item.password }}
+            owner=root
+            group={{ nginx_group }}
+            mode=0640
+  with_items: "{{ nginx_basic_auth_users }}"
+
+- name: Add domains from config.yml to nginx programmatically
+  template: src=templates/default-php.j2 dest=/etc/nginx/sites-available/{{ item.name }}
+  with_items: "{{ domains }}"
+  notify: restart nginx
+
+- name: Ensure additional web root directories have proper permissions
+  file: path=/etc/nginx/sites-available/{{ item.name }}
+        owner={{ nginx_user }}
+        group={{ nginx_group }}
+        mode="u=rwX,g=rwXs,o=rX"
+  with_items: "{{ domains }}"
+
+- name: Ensure all available sites are enabled
+  file: src=/etc/nginx/sites-available/{{ item.name }} dest=/etc/nginx/sites-enabled/{{ item.name }} state=link
+  with_items: "{{ domains }}"
+  notify: restart nginx
+
+- name: Disable the default site if it's not enabled
+  file: path=/etc/nginx/sites-enabled/default state=absent
+  notify: restart nginx
+
+- name: Ensure services are started
+  service: name=nginx state=started

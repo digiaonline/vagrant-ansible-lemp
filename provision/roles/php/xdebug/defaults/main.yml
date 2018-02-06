@@ -1,0 +1,14 @@
+xdebug_pkg_name: php-xdebug
+xdebug_ini_path: "{{ php_etc_path }}/mods-available/xdebug.ini"
+xdebug_cli_ini_path: "{{ php_etc_path }}/cli/conf.d/20-xdebug.ini"
+
+xdebug_bashrc_path: "/home/vagrant/.bashrc"
+
+xdebug_alias_command: "alias php='php -dzend_extension=xdebug.so'"
+
+#
+# The IDE key to use for debugging sessions. It is useful to change this if multiple separate applications are run 
+# on the same server (otherwise PhpStorm may accidentally attempt to debug every request, even those that don't go 
+# to the right application).
+#
+xdebug_idekey: vagrant

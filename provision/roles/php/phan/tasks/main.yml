@@ -1,0 +1,6 @@
+- name: Install Phan
+  get_url:
+    url: https://github.com/etsy/phan/releases/download/{{ phan_version }}/phan.phar
+    dest: /usr/local/bin/phan
+    force: yes
+    mode: 0775

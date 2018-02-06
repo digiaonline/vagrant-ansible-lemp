@@ -1,0 +1,14 @@
+[Unit]
+Description={{ item.description }}
+After=network.target
+After=syslog.target
+
+[Service]
+User={{ item.user }}  
+Group={{ item.user }}  
+Restart=always
+ExecStart={{ item.command }} >> {{ item.log_path }} 2>&1
+WorkingDirectory={{ item.directory }}
+
+[Install]
+WantedBy=multi-user.target

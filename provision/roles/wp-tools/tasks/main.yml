@@ -1,0 +1,17 @@
+---
+- stat: path=/usr/local/bin/wp
+  register: wpcli
+
+- name: Download WP-cli
+  when: wpcli.stat.exists == False
+  get_url:
+    url: "{{wp_cli_download_url}}"
+    dest: /tmp/wp-cli.phar
+    force: true
+    owner: root
+    group: root
+    mode: 0755
+
+- name: Move WP-cli in place
+  when: wpcli.stat.exists == False
+  command: mv /tmp/wp-cli.phar /usr/local/bin/wp

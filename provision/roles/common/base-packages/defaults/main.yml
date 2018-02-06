@@ -1,0 +1,14 @@
+common_base_packages_packages:
+  - build-essential
+  - htop
+  - screen
+  - tmux
+  - vim
+  - nano
+  - git-core
+  - python-software-properties
+  - apt-transport-https
+  - wget
+  - ntp
+  - unzip
+  - python-pip

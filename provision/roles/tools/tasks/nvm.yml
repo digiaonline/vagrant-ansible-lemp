@@ -8,10 +8,10 @@
   become_user: vagrant
   shell: curl -o- {{nvm_download_url}} | bash
 
-- name: Node | Install 6.10.3
+- name: Node | Install 8.9
   become: true
   become_user: vagrant
-  shell: source /home/vagrant/.zshrc && nvm install 6.10.3 && nvm use 6.10.3
+  shell: source /home/vagrant/.zshrc && nvm install 8.9 && nvm alias default 8.9
   args:
     executable: /bin/zsh
 

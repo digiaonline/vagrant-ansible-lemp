@@ -1,0 +1,3 @@
+mariadb_apt_keys:
+  - "0xcbcb082a1bb943db"
+  - "0xf1656f24c74cd1d8"

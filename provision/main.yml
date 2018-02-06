@@ -4,7 +4,14 @@
   become: yes
   become_user: root
   become_method: sudo
-
   roles:
-    - system
-    - tools
+    - common/timezone
+    - common/base-packages
+    - common/hostname
+    - php/xdebug
+    - php/php
+    - mariadb/server
+    - mariadb/client
+    - nginx
+    - nodejs
+    - wp-tools

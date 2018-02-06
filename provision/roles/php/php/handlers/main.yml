@@ -1,0 +1,4 @@
+---
+- name: restart php-fpm
+  service: name={{ php_fpm_service_name }} enabled=yes state=restarted
+  when: php_sapi_fpm_installed.stat.exists == True
