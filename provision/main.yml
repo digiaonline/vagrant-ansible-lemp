@@ -14,4 +14,4 @@
     - mariadb/client
     - nginx
     - nodejs
-    - wp-tools
+    - tools
