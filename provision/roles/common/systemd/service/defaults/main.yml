@@ -1,0 +1,13 @@
+#
+# Example: 
+# systemd_services:
+#   - {
+#       name: foo-service,
+#       description: Service description,
+#       user: root,
+#       directory: /tmp,
+#       command: /usr/bin/foo bar,
+#       log_path: /var/log/system-service-systemd.log
+#     }
+#
+systemd_services: []

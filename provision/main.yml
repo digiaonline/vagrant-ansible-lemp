@@ -1,10 +1,17 @@
 ---
 - name: Install stuff, configure sites & DB's
   hosts: all
-  remote_user: root
   become: yes
+  become_user: root
   become_method: sudo
-
   roles:
-    - system
+    - common/timezone
+    - common/base-packages
+    - common/hostname
+    - php/xdebug
+    - php/php
+    - mariadb/server
+    - mariadb/client
+    - nginx
+    - nodejs
     - tools

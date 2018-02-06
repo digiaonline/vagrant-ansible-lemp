@@ -1,0 +1,102 @@
+#
+# The user and group that nginx should run as
+#
+nginx_user: www-data
+nginx_group: www-data
+
+#
+# The port to bind to for HTTP requests. You'll probably want to change this if you're using a load balancer in front 
+# of nginx.
+#
+nginx_listen_port_http: 80
+
+#
+# The domain name (or names) the server should serve requests for
+#
+nginx_server_name: "{{ hostname }}"
+
+#
+# Domain names that should be redirected to the domain specified by nginx_server_aliases_redirect
+#
+nginx_server_aliases: ""
+
+#
+# The domain to redirect all nginx_server_aliases to
+#
+nginx_server_aliases_redirect: ""
+nginx_web_root: /var/www
+nginx_host_file: /etc/nginx/sites-available/default
+
+#
+# This role comes with two basic templates, one without PHP support and one with
+#
+nginx_host_template: default.j2
+
+#
+# If enabled, a default site won't be added, only nginx_additional_sites will be provisioned
+#
+nginx_skip_default_site: false
+
+#
+# The template to use for /etc/nginx/proxy_params
+#
+nginx_proxy_params_template: proxy_params.j2
+
+#
+# The template to use for /etc/nginx/ssl_params
+#
+nginx_ssl_params_template: ssl_params.j2
+
+#
+# Whether sendfile should be enabled or not
+#
+nginx_sendfile: "off"
+
+#
+# Only applicable when PHP is used
+#
+nginx_fastcgi_pass: 127.0.0.1:9000
+
+#
+# Maximum upload size that can be sent by a client
+#
+nginx_client_max_body_size: 10m
+
+#
+# The server_names_hash_bucket_size value (determines how long server names can be)
+#
+nginx_server_names_hash_bucket_size: 128
+
+#
+# Additional sites to configure. Each item should be a dictionary with the following keys:
+# web_root, host_template, host_file
+#
+nginx_additional_sites: []
+
+#
+# Users to allow for basic authentication
+# E.g. - { username: foo, password: bar }
+#
+nginx_basic_auth_users: []
+nginx_basic_auth_user_file: /etc/nginx/.htpasswd
+
+#
+# Must match letsencrypt_dhparams_path
+#
+nginx_ssl_dhparams_path: /etc/nginx/dhparams.pem
+
+#
+# Caching options
+#
+nginx_caching_enabled: false
+nginx_cache_extensions: js|css
+nginx_cache_expires: max
+
+#
+# Hash of lists, e.g.
+#
+# nginx_redirects:
+#   wordpress:
+#     - { template: foo.j2, dest: /etc/nginx/foo }
+#
+nginx_redirects: {}

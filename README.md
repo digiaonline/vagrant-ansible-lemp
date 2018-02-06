@@ -1,6 +1,6 @@
 # Vagrant LEMP-stack
 
-Easily configurable local LEMP-environment for multiple hostnames.
+Easily configurable local LEMP-environment for multiple local-domains.
 
 ### What's included?
 * [nginx](https://nginx.org/en/)
@@ -12,15 +12,12 @@ Easily configurable local LEMP-environment for multiple hostnames.
 * [Nvm](https://github.com/creationix/nvm)
 * [Yarn](https://yarnpkg.com)
 * [WP-CLI](http://wp-cli.org/)
-* [MailCatcher](https://mailcatcher.me/)
 
 ### Getting started
 
 * Install [Vagrant](https://www.vagrantup.com/) & [VirtualBox](https://www.virtualbox.org/wiki/VirtualBox)
 * Install [Ansible](http://docs.ansible.com/ansible/intro_installation.html)
 * Install hostsupdater-plugin for vagrant: `vagrant plugin install vagrant-hostsupdater`
-* Make sure your `ssh-agent` is running and has your SSH keys added to it
-  * Autostart `ssh-agent` on shell startup: https://help.github.com/articles/working-with-ssh-key-passphrases/#auto-launching-ssh-agent-on-git-for-windows
 * Run `vagrant up`
 
 ### Adding sites (projects)
@@ -33,4 +30,4 @@ Easily configurable local LEMP-environment for multiple hostnames.
 Like always, you should as Niklas as he knows everything.
 
 
-![niklas](http://testi.in/niklas.gif "Niklas knows everything")
+![niklas](./.github/niklas.gif "Niklas knows everything")

@@ -1,0 +1,7 @@
+- name: Configure the time zone
+  copy: content="{{ common_timezone_timezone }}"
+        dest={{ common_timezone_timezone_file }}
+        owner=root
+        group=root
+        mode=0644
+  notify: reconfigure tzdata

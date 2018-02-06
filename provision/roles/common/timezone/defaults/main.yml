@@ -1,0 +1,5 @@
+# The timezone to use
+common_timezone_timezone: UTC
+
+# The path to the timezone file
+common_timezone_timezone_file: /etc/timezone

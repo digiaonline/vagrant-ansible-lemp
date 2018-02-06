@@ -1,0 +1,19 @@
+- name: Clone nikic/php-ast Git repository
+  git: repo=https://github.com/nikic/php-ast.git
+       dest={{ phpast_build_directory }}
+       
+- name: Run phpize
+  command: phpize chdir={{ phpast_build_directory }}
+
+- name: Run configure
+  command: ./configure chdir={{ phpast_build_directory }}
+
+- name: Run make install
+  command: make install chdir={{ phpast_build_directory }}
+  
+- name: Configure extension using template
+  template: src=ast.ini.j2 dest={{ php_etc_path }}/mods-available/ast.ini
+  
+- name: Enable the AST module
+  command: phpenmod ast
+  notify: restart php-fpm

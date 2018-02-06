@@ -1,0 +1,9 @@
+{
+    "http-basic": {},
+    "github-oauth": {
+        {% if php_composer_auth_token is defined %}
+        "github.com": "{{ php_composer_auth_token }}"
+        {% endif %}
+     },
+    "gitlab-oauth": {}
+}

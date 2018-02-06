@@ -1,0 +1,25 @@
+- name: Install packages
+  apt: pkg={{ xdebug_pkg_name }} state=present
+
+- name: Disable the xdebug module for the CLI SAPI
+  command: phpdismod -s cli xdebug
+
+- name: Configure xdebug
+  template:
+    src: xdebug.ini.j2
+    dest: "{{ xdebug_ini_path }}"
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart php-fpm
+
+- name: Configure xdebug for CLI (module disabled by default)
+  template:
+    src: xdebug.cli.ini.j2
+    dest: "{{ xdebug_cli_ini_path }}"
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Add alias for running PHP with xdebug enabled to .bashrc
+  lineinfile: dest={{ xdebug_bashrc_path }} regexp="alias php" line="{{ xdebug_alias_command }}"

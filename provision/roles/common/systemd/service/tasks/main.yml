@@ -1,0 +1,9 @@
+- name: Create systemd service units
+  template: src=system-service-systemd.service.j2 dest=/etc/systemd/system/{{ item.name }}.service
+  with_items: "{{ systemd_services }}"
+  notify: restart services
+
+- name: Create log files and ensure they're writable
+  copy: dest={{ item.log_path }} content="" force=no owner={{ item.user }} group=adm mode=0644
+  with_items: "{{ systemd_services }}"
+  notify: restart services

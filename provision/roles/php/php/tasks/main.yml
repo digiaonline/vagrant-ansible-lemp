@@ -1,0 +1,90 @@
+- name: Add apt repository
+  apt_repository: repo=ppa:{{ php_ppa }}
+
+- name: Install SAPIs
+  apt: pkg={{ item.package }} state=present
+  with_items: "{{ php_sapis }}"
+
+- name: Install modules (without recommends)
+  apt: pkg={{ item }} state=present install_recommends=no
+  with_items: "{{ php_packages }}"
+  notify: restart php-fpm
+
+- name: Install additional modules (without recommends)
+  apt: pkg={{ item }} state=present install_recommends=no
+  with_items: "{{ php_additional_packages }}"
+  notify: restart php-fpm
+
+- name: Install PEAR
+  apt: pkg=php-pear state=present
+  when: php_pear_packages | length > 0
+
+- name: Install PEAR packages
+  command: pear install -f {{ item }}
+  with_items: "{{ php_pear_packages }}"
+  notify: restart php-fpm
+
+- name: Install PECL
+  apt: pkg=php-pear state=present
+  when: php_pecl_packages | length > 0
+
+- name: Install PECL packages
+  command: pecl install -f {{ item }}
+  with_items: "{{ php_pecl_packages }}"
+  notify: restart php-fpm
+
+# check for SAPIs
+- name: Check if CLI SAPI is installed
+  stat: path={{ php_etc_path }}/cli
+  register: php_sapi_cli_installed
+
+- name: Check if fpm SAPI is installed
+  stat: path={{ php_etc_path }}/fpm
+  register: php_sapi_fpm_installed
+
+# configure SAPIs
+- name: Configure php-fpm to use TCP/IP rather than a socket
+  template: src={{ php_fpm_pool_www_template }} dest={{ php_fpm_pool_www_file }}
+  when: php_sapi_fpm_installed.stat.exists == True
+  notify: restart php-fpm
+
+- name: Configure cli SAPI with php.ini using template
+  template: src={{ php_ini_template }} dest={{ php_etc_path }}/cli/php.ini
+  when: php_sapi_cli_installed.stat.exists == True
+
+- name: Configure CLI memory limit override
+  template: src=90-cli-memory-limit.ini.j2 dest={{ php_etc_path }}/cli/conf.d/90-cli-memory-limit.ini
+  when: php_sapi_cli_installed.stat.exists == True and php_memory_limit_cli is defined
+
+- name: Ensure CLI memory limit override is disabled if not defined
+  file: path={{ php_etc_path }}/cli/conf.d/90-cli-memory-limit.ini state=absent
+  when: php_memory_limit_cli is undefined
+
+- name: Configure fpm SAPI with php.ini using template
+  template: src={{ php_ini_template }} dest={{ php_etc_path }}/fpm/php.ini
+  when: php_sapi_fpm_installed.stat.exists == True
+  notify: restart php-fpm
+
+# composer
+- name: Install Composer
+  shell: curl -sS https://getcomposer.org/installer | php && mv composer.phar /usr/local/bin/composer creates=/usr/local/bin/composer
+
+- name: Ensure Composer is executable and owned by root
+  file: path=/usr/local/bin/composer owner=root group=root mode=0775
+
+- name: Create Composer configuration directory
+  file: path={{ php_composer_config_path }} state=directory
+
+- name: Configure Composer auth.json using template
+  template: src={{ php_composer_auth_json_template }} dest={{ php_composer_config_path }}/auth.json
+
+- name: Check who owns the directory where .config/composer is located
+  stat: path={{ php_composer_config_path | dirname | dirname }}
+  register: php_composer_home
+
+- name: Ensure proper permissions on .config/
+  file: path={{ php_composer_config_path | dirname }}
+        state=directory
+        owner={{ php_composer_home.stat.pw_name }}
+        group={{ php_composer_home.stat.pw_name }}
+        recurse=yes

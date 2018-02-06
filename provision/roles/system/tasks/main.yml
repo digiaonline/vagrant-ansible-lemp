@@ -1,9 +1,0 @@
----
-- include_vars: ../../../../config.yml
-
-- include: apt.yml
-- include: mysql.yml
-- include: nginx.yml
-- include: php.yml
-- include: php_fpm.yml
-- include: ohmyzshrc.yml

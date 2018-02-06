@@ -41,7 +41,7 @@ Vagrant.configure("2") do |config|
   config.vm.synced_folder "./sites", "/sites", :mount_options => ["dmode=777", "fmode=666"]
 
   config.vm.provision "shell" do |shell|
-    shell.inline = "sudo apt-get update -y && sudo apt-get upgrade -y && sudo apt-get install -y python"
+    shell.inline = "sudo apt-get update -y && DEBIAN_FRONTEND=noninteractive apt-get upgrade -yq && sudo apt-get install -y python"
   end
 
   config.vm.provision "ansible" do |ansible|

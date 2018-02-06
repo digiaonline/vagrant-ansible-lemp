@@ -1,0 +1,2 @@
+- name: Install packages
+  apt: pkg={{ openjdk_jre_package }} state=present
