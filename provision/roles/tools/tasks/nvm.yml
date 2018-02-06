@@ -19,5 +19,5 @@
   become: true
   become_user: vagrant
   shell: source /home/vagrant/.zshrc && npm i -g yarn
-#  args:
-#    executable: /bin/zsh
+  args:
+    executable: /bin/zsh
